@@ -28,7 +28,7 @@ public class Game {
 
     public void createScene(){
         if (scene == 1){
-            System.out.print("You are on a strange island. Try your best to survive and escape.");
+            System.out.print("You are on a strange ever changing island. Try your best to survive and escape.");
         }
         else{
             System.out.println("You arrive on a cliff overlooking the ocean.\nThere is nothing to do here, so you head back.");
