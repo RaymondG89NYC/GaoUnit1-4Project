@@ -2,12 +2,11 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args){
+        System.out.println("This is a simple adventure game.");
         Scanner input = new Scanner(System.in);
-
+        Game gameFile = new Game();
         System.out.println("Do you want to name your character? (Y/N)");
         String answer = input.nextLine();
-
-        Game gameFile = new Game();
 
         if(answer.equals("Y")){
             System.out.println("What is your character's name?");
@@ -19,7 +18,8 @@ public class Main {
         }
 
         while(gameFile.getScene() != -1){
-            System.out.println("Test");
+            gameFile.createScene();
+            gameFile.options();
         }
 
     }
