@@ -19,7 +19,7 @@ public class Main {
 
         while(gameFile.getScene() != -1){
             gameFile.createScene();
-            gameFile.options();
+            gameFile.options(false);
         }
 
     }
