@@ -10,11 +10,14 @@ public class Game {
     private String biome = "";
     private String biomeAdj = "";
     private boolean goodAdj;
-
-    private boolean wolf = false;
-    private boolean giantScorpion = false;
-    private boolean bear = false;
-    private boolean giantBear = false;
+    private int wolfHp = 125;
+    private int wolfAtk = 10;
+    private int scorpHp = 50;
+    private int scorpAtk = 25;
+    private int bearHp = 150;
+    private int bearAtk = 15;
+    private int giantBearHp = 200;
+    private int giantBearAtk = 20;
 
     public Game (){
         scene = 1;
@@ -37,12 +40,88 @@ public class Game {
 
 
     public void createScene(){
+        Scanner input = new Scanner(System.in);
+        String answer = "";
         System.out.println();
 
         if (scene == 1){
-            System.out.print("Hello " + username + ", you are on a strange ever changing island. Try your best to survive and escape.");
+            System.out.print("Hello " + username + ", you are on a strange ever changing island. The animals here seem smaller and weaker for some reason. Try your best to survive and escape.");
         }
         else if(scene == 0){
+            biome = "forest";
+            description();
+        }
+        else if(scene == 2){
+            biome = "forest";
+            description();
+        }
+        else if(scene == 4){
+            biome = "forest";
+            description();
+        }
+        else if(scene == 5){
+            biome = "forest";
+            description();
+        }
+        else if(scene == 6){
+            biome = "desert";
+            description();
+        }
+        else if(scene == 8){
+            biome = "forest";
+            System.out.println("You arrive at a strange cave. The walls are smooth and appear to be man-made centuries ago. Moss are growing on the cave walls.");
+            System.out.println("You spot something shine inside the cave, so you decided to go into the cave.");
+            System.out.println("You discover a chest inside. It appears brand-new despite its surroundings, as if it had just appeared.");
+            System.out.println("The chest creaked as you open it. It contains a stone sword and a leather helmet. Something resembling a decomposing rotten apple is also in the chest.");
+            System.out.println("You decide to take the stone sword and the leather helmet. +12 atk +5 def");
+            options(false);
+        }
+        else if(scene == 9){
+            biome = "forest";
+            description();
+            encounter("bear", bearHp, bearAtk);
+        }
+        else if(scene == 10){
+            biome = "desert";
+            description();
+            encounter("giant scorpion", scorpHp, scorpAtk);
+        }
+        else if(scene == 12){
+            biome = "forest";
+            description();
+            encounter("wolf", wolfHp, wolfAtk);
+        }
+        else if(scene == 13){
+            biome = "forest";
+            description();
+            System.out.println("You found a clearing in the middle of the forest. Do you want to build a camp here? (Y?N)");
+            answer = input.nextLine();
+        }
+        else if(scene == 14){
+            biome = "forest";
+            description();
+        }
+        else if(scene == 16){
+            biome = "forest";
+            description();
+        }
+        else if(scene == 17){
+            biome = "forest";
+            description();
+        }
+        else if(scene == 18){
+            biome = "forest";
+            description();
+        }
+        else if(scene == 20){
+            biome = "forest";
+            description();
+        }
+        else if(scene == 21){
+            biome = "forest";
+            description();
+        }
+        else if(scene == 22){
             biome = "forest";
             description();
         }
@@ -50,6 +129,7 @@ public class Game {
             System.out.println("You arrive on a cliff overlooking the ocean.\nThere is nothing to do here, so you head back.");
             headBack();
         }
+        options(false);
 
         if(food > 90){
             System.out.println("You are well fed. +5 hp");
@@ -76,13 +156,26 @@ public class Game {
 
             if (answer.equals("E")) {
                 double chance = Math.random();
+                double atkChance = Math.random();
+                boolean dmgUp = false;
+                if(atkChance <= 1.0/10.0){
+                    dmgUp = true;
+                }
                 if (biome.equals("forest")) {
                     if (goodAdj) {
                         if (chance <= (1.0 / 3.0)) {
                             System.out.println("You caught a rabbit and ate it. +40 food");
+                            if(dmgUp){
+                                System.out.println("You now know more about animal anatomy. +1 atk");
+                                atk++;
+                            }
                             food += 40;
                         } else if (chance >= (2.0 / 3.0)) {
                             System.out.println("You caught a bird and ate it. +20 food");
+                            if(dmgUp){
+                                System.out.println("You now know more about animal anatomy. +1 atk");
+                                atk++;
+                            }
                             food += 20;
                         } else {
                             System.out.println("You found a bush of wild berries. Do you want to eat them? (Y/N)");
@@ -105,6 +198,10 @@ public class Game {
                             System.out.println("You couldn't find anything");
                         } else if (chance >= (2.0 / 3.0)) {
                             System.out.println("You caught a bird and ate it. +20 food");
+                            if(dmgUp){
+                                System.out.println("You now know more about animal anatomy. +1 atk");
+                                atk++;
+                            }
                             food += 20;
                         } else {
                             System.out.println("You found a bush of wild berries. Do you want to eat them? (Y/N)");
@@ -129,6 +226,10 @@ public class Game {
                         food += 15;
                     } else if (chance >= (2.75 / 3.0)) {
                         System.out.println("You caught a lizard and ate it. +15 food");
+                        if(dmgUp){
+                            System.out.println("You now know more about animal anatomy. +1 atk");
+                            atk++;
+                        }
                         food += 15;
                     } else {
                         System.out.println("You couldn't find anything");
@@ -185,39 +286,38 @@ public class Game {
     }
     public String adjective(){
         double chance = Math.random();
-        String adj = "";
 
         if(biome.equals("forest")){
             if (chance <= (1.0 / 3.0)) {
-                adj = "thick lush";
+                biomeAdj = "thick lush";
                 goodAdj = true;
             } else if (chance >= (2.0 / 3.0)) {
-                adj = "flourishing";
+                biomeAdj = "flourishing";
                 goodAdj = true;
             } else {
-                adj = "bare";
+                biomeAdj = "bare";
                 goodAdj = false;
             }
         }
         if(biome.equals("desert")){
             if (chance <= (1.0 / 3.0)) {
-                adj = "barren";
+                biomeAdj = "barren";
                 goodAdj = false;
             } else if (chance >= (2.0 / 3.0)) {
-                adj = "arid";
+                biomeAdj = "arid";
                 goodAdj = false;
             } else {
-                adj = "dry";
+                biomeAdj = "dry";
                 goodAdj = false;
             }
         }
         //a or an
-        String firstLetter = adj.substring(0,1);
+        String firstLetter = biomeAdj.substring(0,1);
         if(firstLetter.equals("a") || firstLetter.equals("e") || firstLetter.equals("i") || firstLetter.equals("o") || firstLetter.equals("u")){
-            return "an" + adj;
+            return "an" + biomeAdj;
         }
         else{
-            return "a" + adj;
+            return "a" + biomeAdj;
         }
 
     }
@@ -232,6 +332,57 @@ public class Game {
         }
         if(food>100){
             food = 100;
+        }
+        if(hp<=0){
+            System.out.println("You died!");
+            System.exit(0);
+        }
+    }
+
+    public void encounter(String enemyName, int enemyHp, int enemyAtk){
+        Scanner input = new Scanner(System.in);
+        String answer = "";
+        boolean answered = false;
+
+        System.out.println("You found a " + enemyName + ". It seems to have sensed you as it tensed up.");
+        while(!answered) {
+            System.out.println("Do you want to fight it? (Y/N)");
+            answer = input.nextLine();
+            if(answer.equals("Y")){
+                battle(enemyName, enemyHp, enemyAtk);
+                answered = true;
+            }
+            else if(answer.equals("N")){
+                System.out.println("You ran away when it looked straight at you");
+                answered = true;
+                headBack();
+            }
+        }
+    }
+    public void battle(String enemyName, int enemyHp, int enemyAtk){
+        while (hp > 0 && enemyHp > 0){
+            System.out.println();
+            System.out.println("You have " + hp + "HP                     The " + enemyName + "has " + enemyHp);
+            System.out.println("Test code: enemyHP: " + enemyName + "wolf hp: " + wolfHp);
+            System.out.println("You attacked the " + enemyName + " for " + atk + "damage.");
+            System.out.println("The " + enemyName + " attacked you for " + (enemyAtk-defense) + "damage.");
+            wait(1);
+        }
+        if(enemyHp <= 0){
+            System.out.println("You killed the " + enemyName + " with " + hp + "hp left.");
+            System.out.println("You now know more about animal anatomy. +1 atk");
+            atk++;
+        }
+        if(hp <= 0){
+            System.out.println("You died!");
+            System.exit(0);
+        }
+    }
+    public void wait(int seconds){
+        try {
+            Thread.sleep((long)seconds*1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 }
