@@ -1,11 +1,13 @@
 import java.util.Scanner;
 
+
 public class Main {
     public static void main(String[] args){
+        Game gameFile = new Game();
         System.out.println("This is a simple adventure game.");
         Scanner input = new Scanner(System.in);
-        Game gameFile = new Game();
-        System.out.println("Do you want to name your character? (Y/N)");
+        gameFile.wait(2);
+        System.out.println("Do you want to name your character? Type Y if yes and type anything else if no.");
         String answer = input.nextLine();
 
         if(answer.equals("Y")){
@@ -17,8 +19,9 @@ public class Main {
             gameFile = new Game();
         }
 
-        while(gameFile.getScene() != -1){
+        while(gameFile.getScene() != -100){
             gameFile.createScene();
+            gameFile.wait(2);
             gameFile.options(false);
         }
 

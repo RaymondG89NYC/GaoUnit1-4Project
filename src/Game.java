@@ -45,7 +45,10 @@ public class Game {
         System.out.println();
 
         if (scene == 1){
-            System.out.print("Hello " + username + ", you are on a strange ever changing island. The animals here seem smaller and weaker for some reason. Try your best to survive and escape.");
+            biome = "forest";
+            System.out.println("Hello " + username + ", you are on a strange ever changing island. The animals here seem smaller and weaker for some reason. Try your best to survive and escape.");
+            wait(3);
+            description();
         }
         else if(scene == 0){
             biome = "forest";
@@ -74,7 +77,6 @@ public class Game {
             System.out.println("You discover a chest inside. It appears brand-new despite its surroundings, as if it had just appeared.");
             System.out.println("The chest creaked as you open it. It contains a stone sword and a leather helmet. Something resembling a decomposing rotten apple is also in the chest.");
             System.out.println("You decide to take the stone sword and the leather helmet. +12 atk +5 def");
-            options(false);
         }
         else if(scene == 9){
             biome = "forest";
@@ -129,7 +131,6 @@ public class Game {
             System.out.println("You arrive on a cliff overlooking the ocean.\nThere is nothing to do here, so you head back.");
             headBack();
         }
-        options(false);
 
         if(food > 90){
             System.out.println("You are well fed. +5 hp");
@@ -142,8 +143,10 @@ public class Game {
 
         food -= 10;
         statsCheck();
+        wait(2);
         System.out.println("HP: " + hp);
         System.out.println("food: " + food);
+        System.out.println("Atk: " + atk);
     }
 
     public void options(boolean typo){
@@ -286,17 +289,22 @@ public class Game {
     }
     public String adjective(){
         double chance = Math.random();
+        String description = "";
 
         if(biome.equals("forest")){
             if (chance <= (1.0 / 3.0)) {
                 biomeAdj = "thick lush";
                 goodAdj = true;
+                description = "The forest is vast and diverse, with ancient trees reaching high into the clouds. \n";
+                description += "A mixture of noises, most of which are birds, add life to the forest, and drown out the occasional sounds of breaking twigs beneath the feet of larger animals.";
             } else if (chance >= (2.0 / 3.0)) {
                 biomeAdj = "flourishing";
                 goodAdj = true;
+                description = " The tree have healthy green leaves, and a variety of beastly noises, belonging mostly to foraging beasts, echos in the air.";
             } else {
                 biomeAdj = "bare";
                 goodAdj = false;
+                description = " The trees have no foliage and everything seems quiet. It looks as if this area is dying.";
             }
         }
         if(biome.equals("desert")){
@@ -314,16 +322,16 @@ public class Game {
         //a or an
         String firstLetter = biomeAdj.substring(0,1);
         if(firstLetter.equals("a") || firstLetter.equals("e") || firstLetter.equals("i") || firstLetter.equals("o") || firstLetter.equals("u")){
-            return "an" + biomeAdj;
+            return "an " + biomeAdj;
         }
         else{
-            return "a" + biomeAdj;
+            return "a " + biomeAdj + " " + biome + ". " + description;
         }
 
     }
 
     public void description(){
-        System.out.println("You arrive at " + adjective() + biome + ".");
+        System.out.println("You arrive at " + adjective());
     }
 
     public void statsCheck(){
@@ -362,10 +370,12 @@ public class Game {
     public void battle(String enemyName, int enemyHp, int enemyAtk){
         while (hp > 0 && enemyHp > 0){
             System.out.println();
-            System.out.println("You have " + hp + "HP                     The " + enemyName + "has " + enemyHp);
-            System.out.println("Test code: enemyHP: " + enemyName + "wolf hp: " + wolfHp);
+            System.out.println("You have " + hp + "HP                     The " + enemyName + " has " + enemyHp);
+            System.out.println("Test code: enemyHP: " + enemyHp + "wnear hp: " + bearHp);
             System.out.println("You attacked the " + enemyName + " for " + atk + "damage.");
             System.out.println("The " + enemyName + " attacked you for " + (enemyAtk-defense) + "damage.");
+            hp -= enemyAtk;
+            enemyHp -= atk;
             wait(1);
         }
         if(enemyHp <= 0){
