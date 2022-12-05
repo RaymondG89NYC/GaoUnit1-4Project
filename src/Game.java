@@ -18,6 +18,9 @@ public class Game {
     private int bearAtk = 15;
     private int giantBearHp = 200;
     private int giantBearAtk = 20;
+    private boolean treasure = false;
+    private boolean gear = false;
+    private boolean sailBoat = false;
 
     public Game (){
         scene = 1;
@@ -48,6 +51,8 @@ public class Game {
             biome = "forest";
             System.out.println("Hello " + username + ", you are on a strange ever changing island. The animals here seem smaller and weaker for some reason. Try your best to survive and escape.");
             wait(3);
+            System.out.println("For some reason, you know that the north west corner of the island has a way for you to escape.");
+            wait(1);
             description();
         }
         else if(scene == 0){
@@ -72,11 +77,14 @@ public class Game {
         }
         else if(scene == 8){
             biome = "forest";
-            System.out.println("You arrive at a strange cave. The walls are smooth and appear to be man-made centuries ago. Moss are growing on the cave walls.");
-            System.out.println("You spot something shine inside the cave, so you decided to go into the cave.");
-            System.out.println("You discover a chest inside. It appears brand-new despite its surroundings, as if it had just appeared.");
-            System.out.println("The chest creaked as you open it. It contains a stone sword and a leather helmet. Something resembling a decomposing rotten apple is also in the chest.");
-            System.out.println("You decide to take the stone sword and the leather helmet. +12 atk +5 def");
+            if(!gear) {
+                System.out.println("You arrive at a strange cave. The walls are smooth and appear to be man-made centuries ago. Moss are growing on the cave walls.");
+                System.out.println("You spot something shine inside the cave, so you decided to go into the cave.");
+                System.out.println("You discover a chest inside. It appears brand-new despite its surroundings, as if it had just appeared.");
+                System.out.println("The chest creaked as you open it. It contains a stone sword and a leather helmet. Something resembling a decomposing rotten apple is also in the chest.");
+                System.out.println("You decide to take the stone sword and the leather helmet. +12 atk +5 def");
+            }
+            gear = true;
         }
         else if(scene == 9){
             biome = "forest";
@@ -98,10 +106,31 @@ public class Game {
             description();
             System.out.println("You found a clearing in the middle of the forest. Do you want to build a camp here? (Y?N)");
             answer = input.nextLine();
+            if(answer.equals("Y")){
+                System.out.println("After resting at your camp, you feel a lot better. +50 hp");
+                System.out.println("As you walked away, you can already see your camp starting to decompose.");
+            }
         }
         else if(scene == 14){
-            biome = "forest";
+            biome = "desert";
             description();
+            if(!treasure) {
+                System.out.println("As you walked through the desert, you found a small oasis.");
+                System.out.println("All of the berries that were growing here already got eaten, but you spot some fish swimming around in the water.");
+                System.out.println("You caught and ate some of the fish. The rest of the fish started to swim away from you. +30 food");
+                food += 30;
+                System.out.println("Exploring the oasis further, you saw a flash of light under a palm tree.");
+                System.out.println("You dug under the palm tree and found a golden chest full of golden coins.");
+                System.out.println("Do you want to take this chest? You will have to hold it with one hand, hindering your combat ability. (Y/N)");
+                answer = input.nextLine();
+                if(answer.equals("Y")){
+                    treasure = true;
+                    System.out.println("-2 atk -2 defense");
+                    atk -= 2;
+                    defense -= 2;
+                }
+            }
+
         }
         else if(scene == 16){
             biome = "forest";
@@ -116,8 +145,17 @@ public class Game {
             description();
         }
         else if(scene == 20){
-            biome = "forest";
-            description();
+            System.out.println("You found a beach with an old sailboat. It looks like it can take a full day to repair. Do you want to repair it? (Y/N");
+            answer = input.nextLine();
+            if(answer.equals("Y")){
+                System.out.println("-35 food");
+                food -= 35;
+                System.out.println("You used to sailboat to finally escape the island!");
+                if(treasure){
+                    System.out.println("The gold coins you found should help you when you get back to society!");
+                }
+                scene = -100;
+            }
         }
         else if(scene == 21){
             biome = "forest";

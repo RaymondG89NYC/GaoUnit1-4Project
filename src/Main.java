@@ -21,9 +21,13 @@ public class Main {
 
         while(gameFile.getScene() != -100){
             gameFile.createScene();
-            gameFile.wait(2);
-            gameFile.options(false);
+            if(gameFile.getScene() > -100) {
+                gameFile.wait(2);
+                gameFile.options(false);
+            }
         }
+
+        System.out.println("You win! Good job!");
 
     }
 }
