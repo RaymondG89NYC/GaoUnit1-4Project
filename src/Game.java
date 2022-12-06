@@ -52,7 +52,7 @@ public class Game {
             System.out.println("Hello " + username + ", you are on a strange ever changing island. The animals here seem smaller and weaker for some reason. Try your best to survive and escape.");
             wait(3);
             System.out.println("For some reason, you know that the north west corner of the island has a way for you to escape.");
-            wait(1);
+            wait(3);
             description();
         }
         else if(scene == 0){
@@ -83,6 +83,8 @@ public class Game {
                 System.out.println("You discover a chest inside. It appears brand-new despite its surroundings, as if it had just appeared.");
                 System.out.println("The chest creaked as you open it. It contains a stone sword and a leather helmet. Something resembling a decomposing rotten apple is also in the chest.");
                 System.out.println("You decide to take the stone sword and the leather helmet. +12 atk +5 def");
+                atk += 12;
+                defense += 5;
             }
             gear = true;
         }
@@ -104,10 +106,11 @@ public class Game {
         else if(scene == 13){
             biome = "forest";
             description();
-            System.out.println("You found a clearing in the middle of the forest. Do you want to build a camp here? (Y?N)");
+            System.out.println("You found a clearing in the middle of the forest. Do you want to build a camp here? (Y/N)");
             answer = input.nextLine();
             if(answer.equals("Y")){
                 System.out.println("After resting at your camp, you feel a lot better. +50 hp");
+                hp += 50;
                 System.out.println("As you walked away, you can already see your camp starting to decompose.");
             }
         }
@@ -185,6 +188,7 @@ public class Game {
         System.out.println("HP: " + hp);
         System.out.println("food: " + food);
         System.out.println("Atk: " + atk);
+        System.out.println("Area: " + scene);
     }
 
     public void options(boolean typo){
@@ -199,7 +203,7 @@ public class Game {
                 double chance = Math.random();
                 double atkChance = Math.random();
                 boolean dmgUp = false;
-                if(atkChance <= 1.0/10.0){
+                if(atkChance <= 1.0/5.0){
                     dmgUp = true;
                 }
                 if (biome.equals("forest")) {
@@ -280,9 +284,16 @@ public class Game {
                 System.out.println("You feel like you have stayed in this area for long enough and decide to travel elsewhere");
             }
             if (answer.equals("T")) {
-                System.out.println("Which direction do you want to travel in? (N/E/S/W)");
-                answer = input.nextLine();
-                changeScene(answer);
+                if(scene != 1) {
+                    System.out.println("Which direction do you want to travel in? (N/E/S/W)");
+                    answer = input.nextLine();
+                    changeScene(answer);
+                }
+                else{
+                    System.out.println("Which direction do you want to travel in? (N/E/W)");
+                    answer = input.nextLine();
+                    changeScene(answer);
+                }
             }
         }
         else {
@@ -360,7 +371,7 @@ public class Game {
         //a or an
         String firstLetter = biomeAdj.substring(0,1);
         if(firstLetter.equals("a") || firstLetter.equals("e") || firstLetter.equals("i") || firstLetter.equals("o") || firstLetter.equals("u")){
-            return "an " + biomeAdj;
+            return "an " + biomeAdj + " " + biome + ". " + description;
         }
         else{
             return "a " + biomeAdj + " " + biome + ". " + description;
@@ -408,13 +419,12 @@ public class Game {
     public void battle(String enemyName, int enemyHp, int enemyAtk){
         while (hp > 0 && enemyHp > 0){
             System.out.println();
-            System.out.println("You have " + hp + "HP                     The " + enemyName + " has " + enemyHp);
-            System.out.println("Test code: enemyHP: " + enemyHp + "wnear hp: " + bearHp);
-            System.out.println("You attacked the " + enemyName + " for " + atk + "damage.");
-            System.out.println("The " + enemyName + " attacked you for " + (enemyAtk-defense) + "damage.");
+            System.out.println("You have " + hp + "HP                     The " + enemyName + " has " + enemyHp + "HP");
+            System.out.println("You attacked the " + enemyName + " for " + atk + " damage.");
+            System.out.println("The " + enemyName + " attacked you for " + (enemyAtk-defense) + " damage.");
             hp -= enemyAtk;
             enemyHp -= atk;
-            wait(1);
+            wait(2);
         }
         if(enemyHp <= 0){
             System.out.println("You killed the " + enemyName + " with " + hp + "hp left.");
@@ -433,4 +443,16 @@ public class Game {
             Thread.currentThread().interrupt();
         }
     }
+    public String toString()
+    {
+        String returnString = "username: " + username;
+        returnString += "\nScene: " +scene;
+        returnString += "\nHealth: " +hp;
+        returnString += "\nAtk: " +atk;
+        returnString += "\nFood: " +food;
+        returnString += "\nDefense: " +defense;
+        return returnString;
+
+    }
+
 }

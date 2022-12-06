@@ -28,6 +28,7 @@ public class Main {
         }
 
         System.out.println("You win! Good job!");
+        System.out.println(gameFile);
 
     }
 }
